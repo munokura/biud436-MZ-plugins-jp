@@ -6,6 +6,614 @@
 // ---------------------------------------------------------------
 // Free for commercial and non commercial use.
 //================================================================
+
+/*:ja
+ * @target MZ
+ * @plugindesc (v2.0.2) HUDを表示させるベースプラグイン <RS_HUD_4m>
+ * @author biud436
+ * @url https://raw.githubusercontent.com/munokura/biud436-MZ-plugins-jp/master/HUD/RS_HUD_4m.js
+ * 
+ * @param --- Image Name
+ * @text >>> 画像名
+ * 
+ * @param EXP Gauge
+ * @text EXPゲージ
+ * @parent --- Image Name
+ * @desc img/picturesフォルダからEXPを示す画像を指定
+ * @default exr
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param Empty Gauge
+ * @text 空のゲージ
+ * @parent --- Image Name
+ * @desc 全てのゲージバー画像は空のゲージバーの上に表示
+ * ダメージを受けると画面に表示されます。
+ * @default gauge
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param HP Gauge
+ * @text HPゲージ
+ * @parent --- Image Name
+ * @desc img/picturesフォルダからHPを示す画像を指定
+ * @default hp
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param MP Gauge
+ * @text MPゲージ
+ * @parent --- Image Name
+ * @desc img/picturesフォルダからMPを示す画像を指定
+ * @default mp
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param HUD Background
+ * @text HUDの背景
+ * @parent --- Image Name
+ * @desc img/picturesフォルダから背景を示す画像を指定
+ * @default hud_window_empty
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param Masking
+ * @text マスキング
+ * @parent --- Image Name
+ * @desc 顔画像を表示するには、顔画像からマスク画像の外側を減算
+ * @default masking
+ * @require 1
+ * @dir img/pictures/
+ * @type file
+ * 
+ * @param --- Image Custom Position
+ * @text >>> 画像のカスタム位置
+ * 
+ * @param Face Position
+ * @text 顔 位置
+ * @parent --- Image Custom Position
+ * @desc スプライト変数x,y,visibleの値を決定
+ * 各変数をカンマ区切り
+ * @default 0, 0, true
+ * 
+ * @param HP Position
+ * @text HP 位置
+ * @parent --- Image Custom Position
+ * @desc スプライト変数x,y,visibleの値を決定
+ * 各変数をカンマ区切り
+ * @default 160, 43, true
+ * 
+ * @param MP Position
+ * @text MP 位置
+ * @parent --- Image Custom Position
+ * @desc スプライト変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 160, 69, true
+ * 
+ * @param EXP Position
+ * @text EXP 位置
+ * @parent --- Image Custom Position
+ * @desc スプライト変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 83, 91, true
+ * 
+ * @param HP Text Position
+ * @text HP 文字位置
+ * @parent --- Image Custom Position
+ * @desc 文字変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 160, 53, true
+ * 
+ * @param MP Text Position
+ * @text MP 文字位置
+ * @parent --- Image Custom Position
+ * @desc 文字変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 160, 79, true
+ * 
+ * @param Level Text Position
+ * @text レベル 文字位置
+ * @parent --- Image Custom Position
+ * @desc 文字変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 60, 80, true
+ * 
+ * @param EXP Text Position
+ * @text EXP 文字位置
+ * @parent --- Image Custom Position
+ * @desc 文字変数 x, y, 可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 120.5, 93, true
+ * 
+ * @param Name Text Position
+ * @text 名前 文字位置
+ * @parent --- Image Custom Position
+ * @desc 文字変数 x、y、および可視の値を決定
+ * 各変数をカンマ区切り
+ * @default 54, 53, false
+ * 
+ * @param --- Noraml
+ * @text >>> ノーマル
+ * 
+ * @param Width
+ * @text 幅
+ * @parent --- Noraml
+ * @desc デフォルトのスプライト・バッチを使用している場合、無変更
+ * デフォルト: 317
+ * @default 317
+ * 
+ * @param Height
+ * @text 高さ
+ * @parent --- Noraml
+ * @desc デフォルトのスプライト・バッチを使用している場合、無変更
+ * デフォルト: 101
+ * @default 101
+ * 
+ * @param Margin
+ * @text マージン
+ * @parent --- Noraml
+ * @type number
+ * @min 0
+ * @desc HUDの境界線のマージンを指定
+ * @default 0
+ * 
+ * @param Gaussian Blur
+ * @text ガウスぼかし
+ * @parent --- Noraml
+ * @type boolean
+ * @desc ぼかし/非ぼかしを設定
+ * @default true
+ * 
+ * @param Show
+ * @text HUD表示
+ * @parent --- Noraml
+ * @type boolean
+ * @desc HUDを表示するかどうかを指定(デフォルトはtrue)
+ * @default true
+ * 
+ * @param Opacity
+ * @text 不透明度
+ * @parent --- Noraml
+ * @type number
+ * @min 0
+ * @max 255
+ * @desc 不透明度の値を 0～255 の間で指定
+ * @default 255
+ * 
+ * @param Arrangement
+ * @text 配置
+ * @parent --- Noraml
+ * @type string[]
+ * @desc 画面上の各HUD要素の位置のアンカーを指定
+ * @default ["LeftTop", "LeftBottom", "RightTop", "RightBottom"]
+ * 
+ * @param Anchor
+ * @text アンカー
+ * @parent --- Noraml
+ * @desc アンカーが見つからない場合、HUDはこのアンカーに指定
+ * @default LeftTop
+ * 
+ * @param preloadImportantFaces
+ * @text 顔画像プリロード
+ * @parent --- Noraml
+ * @type string[]
+ * @desc マップを開始前に全ての顔画像を読み込み
+ * @default ["Actor1", "Actor2", "Actor3"]
+ * 
+ * @param Battle Only
+ * @text HUDを戦闘限定
+ * @parent --- Noraml
+ * @type boolean
+ * @desc 戦闘時のみHUDを使用したい場合に使用
+ * デフォルト: false
+ * @default false
+ * 
+ * @param Show Comma
+ * @text コンマを表示
+ * @parent --- Noraml
+ * @type boolean
+ * @desc 数字の値を3桁ごとにカンマで区別するかどうかを指定
+ * @default false
+ * 
+ * @param Max Exp Text
+ * @text 最大EXP文字
+ * @parent --- Noraml
+ * @desc
+ * @default ------/------
+ * 
+ * @param Max Members
+ * @text 最大メンバー
+ * @parent --- Noraml
+ * @type number
+ * @min 1
+ * @desc 画面に表示する HUD 要素の数を指定
+ * @default 4
+ * 
+ * @param --- Font
+ * @text >>> フォント
+ * 
+ * @param Chinese Font
+ * @text 中国語フォント
+ * @parent --- Font
+ * @desc 希望するフォントを指定
+ * @default SimHei, Heiti TC, sans-serif
+ * 
+ * @param Korean Font
+ * @text 韓国語フォント
+ * @parent --- Font
+ * @desc 必要なフォントを指定
+ * @default NanumGothic, GameFont, Dotum, AppleGothic, sans-serif
+ * 
+ * @param Standard Font
+ * @text 標準フォント
+ * @parent --- Font
+ * @desc ./fonts フォルダからフォントファイルの css をインポートすることを指定
+ * @default GameFont
+ * 
+ * @param Level Text Size
+ * @text レベル文字サイズ
+ * @parent --- Font
+ * @desc レベルの文字サイズを指定
+ * @default 24
+ * 
+ * @param HP Text Size
+ * @text HP 文字サイズ
+ * @parent --- Font
+ * @desc HP の文字サイズを指定
+ * @default 12
+ * 
+ * @param MP Text Size
+ * @text MP 文字サイズ
+ * @parent --- Font
+ * @desc MP の文字サイズを指定
+ * @default 12
+ * 
+ * @param EXP Text Size
+ * @text EXP 文字サイズ
+ * @parent --- Font
+ * @desc EXP の文字サイズを指定
+ * @default 12
+ * 
+ * @param Name Text Size
+ * @text 名前 文字サイズ
+ * @parent --- Font
+ * @desc 名前の文字サイズを指定
+ * @default 12
+ * 
+ * @param --- Text Color
+ * @text >>> 文字の色
+ * 
+ * @param HP Color
+ * @text HP色
+ * @parent --- Text Color
+ * @desc HP の文字色を指定
+ * @default #ffffff
+ * 
+ * @param MP Color
+ * @text MP色
+ * @parent --- Text Color
+ * @desc MP の文字色を指定
+ * @default #ffffff
+ * 
+ * @param EXP Color
+ * @text EXP色
+ * @parent --- Text Color
+ * @desc EXP の文字色を指定
+ * @default #ffffff
+ * 
+ * @param Level Color
+ * @text レベル色
+ * @parent --- Text Color
+ * @desc レベルの文字色を指定
+ * @default #ffffff
+ * 
+ * @param Name Color
+ * @text 名前 色
+ * @parent --- Text Color
+ * @desc 名前の文字色を指定
+ * @default #ffffff
+ * 
+ * @param --- Text Outline Color
+ * @text >>> 文字アウトラインの色
+ * 
+ * @param HP Outline Color
+ * @text HPアウトライン色
+ * @parent --- Text Outline Color
+ * @desc HP の文字色を指定
+ * @default rgba(0, 0, 0, 0.5)
+ * 
+ * @param MP Outline Color
+ * @text MPアウトライン色
+ * @parent --- Text Outline Color
+ * @desc MP の文字アウトラインの色を指定
+ * @default rgba(0, 0, 0, 0.5)
+ * 
+ * @param EXP Outline Color
+ * @text EXPアウトライン色
+ * @parent --- Text Outline Color
+ * @desc EXP の文字アウトラインの色を指定
+ * @default rgba(0, 0, 0, 0.5)
+ * 
+ * @param Level Outline Color
+ * @text レベルアウトライン色
+ * @parent --- Text Outline Color
+ * @desc レベルの文字アウトラインの色を指定
+ * @default rgba(0, 0, 0, 0.5)
+ * 
+ * @param Name Outline Color
+ * @text 名前アウトライン色
+ * @parent --- Text Outline Color
+ * @desc 名前の文字アウトラインの色を指定
+ * @default rgba(0, 0, 0, 0.5)
+ * 
+ * @param --- Text Outline Width
+ * @text >>> 文字アウトラインの幅
+ * 
+ * @param HP Outline Width
+ * @text HP アウトライン幅
+ * @parent --- Text Outline Width
+ * @desc HP の文字アウトラインの最大幅を指定
+ * @default 4
+ * 
+ * @param MP Outline Width
+ * @text MP アウトライン幅
+ * @parent --- Text Outline Width
+ * @desc MP の文字アウトラインの最大幅を指定
+ * @default 4
+ * 
+ * @param EXP Outline Width
+ * @text EXP アウトライン幅
+ * @parent --- Text Outline Width
+ * @desc EXP の文字アウトラインの最大幅を指定
+ * @default 4
+ * 
+ * @param Level Outline Width
+ * @text レベル アウトライン幅
+ * @parent --- Text Outline Width
+ * @desc レベルの文字アウトラインの最大幅を指定
+ * @default 4
+ * 
+ * @param Name Outline Width
+ * @text 名前 アウトライン幅
+ * @parent --- Text Outline Width
+ * @desc 名前の文字アウトラインの最大幅を指定
+ * @default 4
+ * 
+ * @param --- Custom Font
+ * @text >>> カスタムフォント
+ * 
+ * @param Using Custom Font
+ * @text カスタムフォントの使用
+ * @parent --- Custom Font
+ * @type boolean
+ * @desc カスタムフォントを表示するかどうかを指定
+ * 指定する:true / 指定しない:false
+ * @default false
+ * 
+ * @param Custom Font Name
+ * @text カスタムフォント名
+ * @parent --- Custom Font
+ * @desc カスタムフォントの名前を指定
+ * @default NanumBrush
+ * 
+ * @param Custom Font Src
+ * @text カスタムフォントの作成元
+ * @parent --- Custom Font
+ * @desc ゲームプロジェクトフォルダからフォントファイルのパスを指定
+ * @default fonts/NanumBrush.ttf
+ * 
+ * @param --- Custom HUD Anchor
+ * @text >>> カスタムHUDアンカー
+ * 
+ * @param Custom Pos 1
+ * @text カスタム位置1
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default 0, (H * 0) + PD
+ * 
+ * @param Custom Pos 2
+ * @text カスタム位置2
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default 0, (H * 1) + PD
+ * 
+ * @param Custom Pos 3
+ * @text カスタム位置3
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default 0, (H * 2) + PD
+ * 
+ * @param Custom Pos 4
+ * @text カスタム位置4
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default 0, (H * 3) + PD
+ * 
+ * @param Custom Pos 5
+ * @text カスタム位置5
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default 0, (H * 4) + PD
+ * 
+ * @param Custom Pos 6
+ * @text カスタム位置6
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default W + PD, (H * 0) + PD
+ * 
+ * @param Custom Pos 7
+ * @text カスタム位置7
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default W + PD, (H * 1) + PD
+ * 
+ * @param Custom Pos 8
+ * @text カスタム位置8
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default W + PD, (H * 2) + PD
+ * 
+ * @param Custom Pos 9
+ * @text カスタム位置9
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default W + PD, (H * 3) + PD
+ * 
+ * @param Custom Pos 10
+ * @text カスタム位置10
+ * @parent --- Custom HUD Anchor
+ * @desc 定義済み変数 . W, H, PD, BW, BH
+ * ヘルプ参照
+ * @default W + PD, (H * 4) + PD
+ * 
+ * @help
+ * 翻訳:ムノクラ
+ * https://fungamemake.com/
+ * https://twitter.com/munokura/
+ * 
+ * 元プラグイン
+ * https://raw.githubusercontent.com/biud436/MZ/master/HUD/RS_HUD_4m.js
+ * 
+ * ==========================================================================
+ * 導入事例
+ * ==========================================================================
+ * 
+ * リソースをダウンロードして、img/picturesフォルダに配置してください。
+ * 全てのリソースは以下のリンクでダウンロードできます。
+ * リソースリンク :
+ * https://www.dropbox.com/s/umjlbgfgdts2rf7/pictures.zip?dl=0
+ * 
+ * プラグインパラメータ'preloadImportantFaces' で指定します。
+ * 
+ * ==========================================================================
+ * カスタム位置
+ * ==========================================================================
+ * 
+ * 正しい位置に表示するために、利用可能な定義済み変数を知る必要があります。
+ * パラメータ'Custom Pos'という名前が付いています。
+ * そのため、HUD自体の位置を素早く設定することができます。
+ * 
+ * 定義済みの変数:
+ *    W - 'W' は 'Width' という名前のパラメータと同じです。
+ *    H - 'H' は 'Height' という名前のパラメータと同じです。
+ *    PD - 'PD' は 'Margin' という名前のパラメータと同じです。
+ *    BW - 'BW' はゲームの最大幅と同じです。
+ *    BH - 'BH' はゲームの高さの最大値と同じです.
+ * 
+ * 各スプライトは背景のスプライトとの相対的な位置を変えて表示します。
+ * したがって、このカスタム位置はかなり重要な値です。
+ * 
+ * ==========================================================================
+ * メモタグ
+ * ==========================================================================
+ * 
+ * 以下のように、マップのメモ欄に以下のメモタグを挿入します。
+ * <DISABLE_HUD> : 各HUDを作成したくないマップで使用できるメモタグです。
+ * 
+ * ==========================================================================
+ * スクリプト
+ * ==========================================================================
+ * 
+ * --------------------------------------------------------------------------
+ * 不透明度の設定
+ * --------------------------------------------------------------------------
+ * HUDの不透明度をxに設定します。
+ * 
+ *    gameHud.opacity = x.
+ * 
+ * これは0から255の間の数値です。
+ * 
+ * 例えば、以下のようになります。
+ * 例:
+ *    $gameHud.opacity = 128;
+ * 
+ * --------------------------------------------------------------------------
+ * 可視性の設定
+ * --------------------------------------------------------------------------
+ * この変数は、HUDの可視オプションを変更します。
+ * 
+ *    $gameHud.show = true/false;
+ * 
+ * 例:
+ *    $gameHud.show = false;
+ * 
+ * --------------------------------------------------------------------------
+ * リフレッシュ文字
+ * --------------------------------------------------------------------------
+ * 一般的に文字やゲージのスプライトはリフレッシュすると更新されるので、
+ * こちらはフレーム毎に更新されるわけではありません。
+ * そのため、全ての文字を即座にリフレッシュする必要がある場合、
+ * 以下のようにします。
+ * 
+ *   $gameTemp.notifyHudTextRefresh();
+ * 
+ * --------------------------------------------------------------------------
+ * 全てのHUDをクリアして作成
+ * --------------------------------------------------------------------------
+ * 全てのHUDをリフレッシュの必要がある場合、以下のようにします。
+ * 
+ *   $gameTemp.notifyHudRefresh();
+ * 
+ * 
+ * 利用規約:
+ *   MITライセンスです。
+ *   https://licenses.opensource.jp/MIT/MIT.html
+ *   作者に無断で改変、再配布が可能で、
+ *   利用形態（商用、18禁利用等）についても制限はありません。
+ * 
+ * 
+ * @command opacity
+ * @desc HUDの不透明度を変更できます。
+ * 
+ * @arg opacity
+ * @type number
+ * @desc HUD要素の不透明度を0～255の間で指定します。
+ * @default 200
+ * @min 0
+ * @max 255
+ * 
+ * @command visible
+ * @desc HUDの可視性を変更できます。
+ * 
+ * @arg valid
+ * @type boolean
+ * @desc HUD要素の可視性を指定します。
+ * @default true
+ * @on 表示
+ * @off 非表示
+ * 
+ * @command import
+ * @desc HUDの設定をインポートできます。
+ * 
+ * @arg filename
+ * @type string
+ * @desc データファイル名を指定します。
+ * @default config
+ * 
+ * @command export
+ * @desc HUDの設定をエクスポートできます。
+ * 
+ * @arg filename
+ * @type string
+ * @desc データファイル名を指定します。
+ * @default config
+ * 
+ */
+
 /*:
  * RS_HUD_4m.js
  * @target MZ
@@ -1287,7 +1895,7 @@ var RS = RS || {};
     RS.HUD.param = RS.HUD.param || {};
 
     Object.assign(RS.HUD, {
-        
+
         // Image Position
         loadImagePosition(szRE) {
             const target = szRE.match(/(.*),(.*),(.*)/i);
@@ -1315,72 +1923,72 @@ var RS = RS || {};
 
     Object.assign(RS.HUD.param, {
 
-        imgEXP : String(parameters['EXP Gauge'] || 'exr'),
-        imgEmptyGauge : String(parameters['Empty Gauge'] || 'gauge'),
-        imgHP : String(parameters['HP Gauge'] || 'hp'),
-        imgMP : String(parameters['MP Gauge'] || 'mp'),
-        imgEmptyHUD : String(parameters['HUD Background'] || 'hud_window_empty'),
-        imgMasking : String(parameters['Masking'] || 'masking'),
+        imgEXP: String(parameters['EXP Gauge'] || 'exr'),
+        imgEmptyGauge: String(parameters['Empty Gauge'] || 'gauge'),
+        imgHP: String(parameters['HP Gauge'] || 'hp'),
+        imgMP: String(parameters['MP Gauge'] || 'mp'),
+        imgEmptyHUD: String(parameters['HUD Background'] || 'hud_window_empty'),
+        imgMasking: String(parameters['Masking'] || 'masking'),
 
-        ptFace : RS.HUD.loadImagePosition(parameters['Face Position'] || '0, 0, true'),
-        ptHP : RS.HUD.loadImagePosition(parameters['HP Position'] || '160, 43, true'),
-        ptMP : RS.HUD.loadImagePosition(parameters['MP Position'] || '160, 69, true'),
-        ptEXP : RS.HUD.loadImagePosition(parameters['EXP Position'] || '83, 91, true'),
-        ptHPText : RS.HUD.loadImagePosition(parameters['HP Text Position'] || '160, 53, true'),
-        ptMPText : RS.HUD.loadImagePosition(parameters['MP Text Position'] || '160, 79, true'),
-        ptLevelText : RS.HUD.loadImagePosition(parameters['Level Text Position'] || '60, 80, true'),
-        ptEXPText : RS.HUD.loadImagePosition(parameters['EXP Text Position'] || '120.5, 93, true'),
-        ptNameText : RS.HUD.loadImagePosition(parameters['Name Text Position'] || '54, 53, true'),
-        
-        nWidth : RS.HUD.loadRealNumber('Width', 317),
-        nHeight : RS.HUD.loadRealNumber('Height', 101),
-        nPD : RS.HUD.loadRealNumber('Margin', 0),
-        blurProcessing : Boolean(parameters['Gaussian Blur'] === "true"),
-        bShow : Boolean(parameters['Show'] === "true"),
-        nOpacity : RS.HUD.loadRealNumber('Opacity', 255),
-        szAnchor : String(parameters['Anchor'] || "LeftTop"),
-        arrangement : eval(parameters['Arrangement']),
-        preloadImportantFaces : eval(parameters['preloadImportantFaces'] || 'Actor1'),
-        battleOnly : Boolean(parameters['Battle Only'] === "true"),
-        showComma : Boolean(parameters['Show Comma'] === 'true'),
-        maxExpText : String(parameters['Max Exp Text'] || "------/------"),
-        nMaxMembers : parseInt(parameters["Max Members"] || 4),
+        ptFace: RS.HUD.loadImagePosition(parameters['Face Position'] || '0, 0, true'),
+        ptHP: RS.HUD.loadImagePosition(parameters['HP Position'] || '160, 43, true'),
+        ptMP: RS.HUD.loadImagePosition(parameters['MP Position'] || '160, 69, true'),
+        ptEXP: RS.HUD.loadImagePosition(parameters['EXP Position'] || '83, 91, true'),
+        ptHPText: RS.HUD.loadImagePosition(parameters['HP Text Position'] || '160, 53, true'),
+        ptMPText: RS.HUD.loadImagePosition(parameters['MP Text Position'] || '160, 79, true'),
+        ptLevelText: RS.HUD.loadImagePosition(parameters['Level Text Position'] || '60, 80, true'),
+        ptEXPText: RS.HUD.loadImagePosition(parameters['EXP Text Position'] || '120.5, 93, true'),
+        ptNameText: RS.HUD.loadImagePosition(parameters['Name Text Position'] || '54, 53, true'),
 
-        chineseFont : String(parameters['Chinese Font'] || 'SimHei, Heiti TC, sans-serif'),
-        koreanFont : String(parameters['Korean Font'] || 'NanumGothic, Dotum, AppleGothic, sans-serif'),
-        standardFont : String(parameters['Standard Font'] || 'GameFont'),
+        nWidth: RS.HUD.loadRealNumber('Width', 317),
+        nHeight: RS.HUD.loadRealNumber('Height', 101),
+        nPD: RS.HUD.loadRealNumber('Margin', 0),
+        blurProcessing: Boolean(parameters['Gaussian Blur'] === "true"),
+        bShow: Boolean(parameters['Show'] === "true"),
+        nOpacity: RS.HUD.loadRealNumber('Opacity', 255),
+        szAnchor: String(parameters['Anchor'] || "LeftTop"),
+        arrangement: eval(parameters['Arrangement']),
+        preloadImportantFaces: eval(parameters['preloadImportantFaces'] || 'Actor1'),
+        battleOnly: Boolean(parameters['Battle Only'] === "true"),
+        showComma: Boolean(parameters['Show Comma'] === 'true'),
+        maxExpText: String(parameters['Max Exp Text'] || "------/------"),
+        nMaxMembers: parseInt(parameters["Max Members"] || 4),
 
-        levelTextSize : RS.HUD.loadRealNumber('Level Text Size', 12),
-        hpTextSize : RS.HUD.loadRealNumber('HP Text Size', 12),
-        mpTextSize : RS.HUD.loadRealNumber('MP Text Size', 12),
-        expTextSize : RS.HUD.loadRealNumber('EXP Text Size', 12),
-        nameTextSize : RS.HUD.loadRealNumber('Name Text Size', 12),
- 
-        szHpColor : String(parameters['HP Color'] || '#ffffff'),
-        szMpColor : String(parameters['MP Color'] || '#ffffff'),
-        szExpColor : String(parameters['EXP Color'] || '#ffffff'),
-        szLevelColor : String(parameters['Level Color'] || '#ffffff'),
-        szNameColor : String(parameters['Name Color'] || '#ffffff'),
+        chineseFont: String(parameters['Chinese Font'] || 'SimHei, Heiti TC, sans-serif'),
+        koreanFont: String(parameters['Korean Font'] || 'NanumGothic, Dotum, AppleGothic, sans-serif'),
+        standardFont: String(parameters['Standard Font'] || 'GameFont'),
 
-        szHpOutlineColor : String(parameters['HP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
-        szMpOutlineColor : String(parameters['MP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
-        szExpOutlineColor : String(parameters['EXP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
-        szLevelOutlineColor : String(parameters['Level Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
-        szNameOutlineColor : String(parameters['Name Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
-        
-        szHpOutlineWidth : RS.HUD.loadRealNumber('HP Outline Width', 4),
-        szMpOutlineWidth : RS.HUD.loadRealNumber('MP Outline Width', 4),
-        szExpOutlineWidth : RS.HUD.loadRealNumber('EXP Outline Width', 4),
-        szLevelOutlineWidth : RS.HUD.loadRealNumber('Level Outline Width', 4),
-        szNameOutlineWidth : RS.HUD.loadRealNumber('Name Outline Width', 4),
-        
-        bUseCustomFont : Boolean(parameters['Using Custom Font'] === 'true'),
-        szCustomFontName : String(parameters['Custom Font Name'] || 'GameFont'),
-        szCustomFontSrc : String(parameters['Custom Font Src'] || 'fonts/mplus-1m-regular.ttf'),
-        
-        ptCustormAnchor : [],
-        isCurrentBattleShowUp : false,
-        isPreviousShowUp : false
+        levelTextSize: RS.HUD.loadRealNumber('Level Text Size', 12),
+        hpTextSize: RS.HUD.loadRealNumber('HP Text Size', 12),
+        mpTextSize: RS.HUD.loadRealNumber('MP Text Size', 12),
+        expTextSize: RS.HUD.loadRealNumber('EXP Text Size', 12),
+        nameTextSize: RS.HUD.loadRealNumber('Name Text Size', 12),
+
+        szHpColor: String(parameters['HP Color'] || '#ffffff'),
+        szMpColor: String(parameters['MP Color'] || '#ffffff'),
+        szExpColor: String(parameters['EXP Color'] || '#ffffff'),
+        szLevelColor: String(parameters['Level Color'] || '#ffffff'),
+        szNameColor: String(parameters['Name Color'] || '#ffffff'),
+
+        szHpOutlineColor: String(parameters['HP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
+        szMpOutlineColor: String(parameters['MP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
+        szExpOutlineColor: String(parameters['EXP Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
+        szLevelOutlineColor: String(parameters['Level Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
+        szNameOutlineColor: String(parameters['Name Outline Color'] || 'rgba(0, 0, 0, 0.5)'),
+
+        szHpOutlineWidth: RS.HUD.loadRealNumber('HP Outline Width', 4),
+        szMpOutlineWidth: RS.HUD.loadRealNumber('MP Outline Width', 4),
+        szExpOutlineWidth: RS.HUD.loadRealNumber('EXP Outline Width', 4),
+        szLevelOutlineWidth: RS.HUD.loadRealNumber('Level Outline Width', 4),
+        szNameOutlineWidth: RS.HUD.loadRealNumber('Name Outline Width', 4),
+
+        bUseCustomFont: Boolean(parameters['Using Custom Font'] === 'true'),
+        szCustomFontName: String(parameters['Custom Font Name'] || 'GameFont'),
+        szCustomFontSrc: String(parameters['Custom Font Src'] || 'fonts/mplus-1m-regular.ttf'),
+
+        ptCustormAnchor: [],
+        isCurrentBattleShowUp: false,
+        isPreviousShowUp: false
 
     });
 
@@ -1407,7 +2015,7 @@ var RS = RS || {};
             const x = eval('[' + szRE + ']');
             if (x instanceof Array) return new Point(x[0], x[1]);
             return new Point(0, 0);
-        },    
+        },
 
         getDefaultHUDAnchor() {
             const anchor = {
@@ -1617,7 +2225,7 @@ var RS = RS || {};
         static distance(vec1, vec2) {
             const val = Math.pow(vec2.x - vec1.x, 2) + Math.pow(vec2.y - vec1.y, 2);
             return Math.sqrt(val);
-        };        
+        };
 
         /**
          * @constructor
@@ -1707,7 +2315,7 @@ var RS = RS || {};
             this.x = x;
             this.y = y;
         }
-    
+
         /**
          * @method getLength
          * @return {Number} angle
@@ -1715,7 +2323,7 @@ var RS = RS || {};
         getLength() {
             return Math.sqrt(this.x * this.x + this.y * this.y);
         }
-    
+
         /**
          * @method getAngle
          * @param {Vector2} vec
@@ -1729,7 +2337,7 @@ var RS = RS || {};
                 console.error("This is not normalize vector");
             }
         }
-    
+
         /**
          * @method normalize
          * @return {Vector2} rel
@@ -1742,7 +2350,7 @@ var RS = RS || {};
             }
             return rel;
         }
-    
+
         /**
          * @method dot
          * @param {Vector} vec
@@ -1751,7 +2359,7 @@ var RS = RS || {};
         dot(vec) {
             return this.x * vec.x + this.y * vec.y;
         }
-    
+
         /**
          * @method rotate
          * @param angle {Number}
@@ -1760,7 +2368,7 @@ var RS = RS || {};
             this.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
             this.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
         }
-    
+
         /**
          * @method pointDirection
          * @param {Vector2} vec targetVector
@@ -1770,7 +2378,7 @@ var RS = RS || {};
         pointDirection(vec, angle) {
             return Math.atan2(vec.y - this.y, vec.x - this.x) - (Math.PI / 180) * angle;
         }
-    
+
         /**
          * @method isEqual
          * @param {Vector2} vec
@@ -1783,13 +2391,13 @@ var RS = RS || {};
                 return true;
             }
             return false;
-        }     
+        }
 
 
         /**
          * @memberof Vector2
          * @property x
-         */        
+         */
         get x() {
             return this._x;
         }
@@ -1797,7 +2405,7 @@ var RS = RS || {};
         /**
          * @memberof Vector2
          * @property x
-         */        
+         */
         set x(value) {
             this._x = value;
         }
@@ -1805,7 +2413,7 @@ var RS = RS || {};
         /**
          * @memberof Vector2
          * @property y
-         */        
+         */
         get y() {
             return this._y;
         }
@@ -1813,7 +2421,7 @@ var RS = RS || {};
         /**
          * @memberof Vector2
          * @property y
-         */        
+         */
         set y(value) {
             this._y = value;
         }
@@ -1830,28 +2438,28 @@ var RS = RS || {};
     Object.assign(Bitmap.prototype, {
 
         drawClippingImage(bitmap, maskSource, _x, _y, _sx, _sy) {
-                const maskImage = maskSource._image;
-                const sourceImage = bitmap._image;
-                const context = this._context;
+            const maskImage = maskSource._image;
+            const sourceImage = bitmap._image;
+            const context = this._context;
 
-                if(!maskImage.complete || !sourceImage.complete) {
-                    return;
-                }
-    
-                context.save();
-                context.drawImage(maskImage, _x, _y, nFaceDiameter, nFaceDiameter);
-                context.globalCompositeOperation = 'source-atop';
-                context.drawImage(sourceImage, _sx, _sy, 144, 144, 0, 0, nFaceDiameter, nFaceDiameter);
-                context.restore();
-    
-                this._baseTexture.update();
+            if (!maskImage.complete || !sourceImage.complete) {
+                return;
+            }
+
+            context.save();
+            context.drawImage(maskImage, _x, _y, nFaceDiameter, nFaceDiameter);
+            context.globalCompositeOperation = 'source-atop';
+            context.drawImage(sourceImage, _sx, _sy, 144, 144, 0, 0, nFaceDiameter, nFaceDiameter);
+            context.restore();
+
+            this._baseTexture.update();
         },
 
         drawClippingImageNonBlur(source, _x, _y, _sx, _sy) {
             const context = this._context;
             const image = source._image;
 
-            if(!image.complete) {
+            if (!image.complete) {
                 return;
             }
 
@@ -1876,7 +2484,7 @@ var RS = RS || {};
         notifyHudTextRefresh() {
             if ($gameHud) $gameHud.updateText();
         },
-    
+
         notifyHudRefresh() {
             if ($gameHud) $gameHud.refresh();
         }
@@ -1948,49 +2556,49 @@ var RS = RS || {};
             this._params = params;
             this.requestUpdate();
         };
-    
+
         setCallbackFunction(cbFunc) {
             this._callbackFunction = cbFunc;
         };
-    
+
         updateTextLog() {
             this._log = this._callbackFunction.call();
         };
-    
+
         startCallbackFunction() {
             this._callbackFunction.call(this);
         };
-    
+
         getTextProperties(n) {
             return this._params[n];
         };
-    
+
         drawDisplayText() {
             this.defaultFontSettings();
             this.bitmap.drawText(
-                this._callbackFunction(this), 
-                0, 0, 
-                120, 
-                this._params[0] + 8, 
+                this._callbackFunction(this),
+                0, 0,
+                120,
+                this._params[0] + 8,
                 'center'
             );
         };
-    
+
         isRefresh() {
             const currentText = this._callbackFunction();
             return currentText.localeCompare(this._log) !== 0;
         };
-    
+
         clearTextData() {
             this.bitmap.clear();
         };
-    
+
         requestUpdate() {
             this.clearTextData();
             this.drawDisplayText();
             this.updateTextLog();
         };
-    
+
         standardFontFace() {
             if (RS.HUD.param.bUseCustomFont) {
                 return RS.HUD.param.szCustomFontName;
@@ -2004,7 +2612,7 @@ var RS = RS || {};
                 }
             }
         };
-    
+
         defaultFontSettings() {
             const param = this._params;
 
@@ -2017,36 +2625,48 @@ var RS = RS || {};
     }
 
     //=================================================
-    // RS.HUD.Layer
+    // SpriteInterface
     //=================================================
 
-    RS.HUD.Layer = class extends Sprite {
+    class SpriteInterface extends Sprite {
+        updateText() { }
+        refresh() { }
+        createItemLayer() { }
+        drawAllHud() { }
+        updateFrame() { }
+    }
+
+    //=================================================
+    // RS.HUD.Layer
+    //=================================================    
+
+    RS.HUD.Layer = class extends SpriteInterface {
 
         constructor(bitmap) {
             super(bitmap);
             this.alpha = 0;
-            this.createItemLayer();            
+            this.createItemLayer();
         }
 
         destroy() {
             super.destroy();
         }
-    
+
         createItemLayer() {
             this._items = new Sprite();
             this._items.setFrame(0, 0, Graphics.width, Graphics.height);
             this.addChild(this._items);
         }
-    
+
         drawAllHud() {
             const allHud = this._items;
             const items = RS.HUD.param.arrangement;
-    
+
             // This removes any drawing objects that have already been created.
             if (allHud.children.length > 0) {
                 allHud.removeChildren(0, allHud.children.length);
             }
-    
+
             items.forEach((item, index) => {
                 // This code runs only when there is a party member at a specific index.
                 if (!!$gameParty.members()[index]) {
@@ -2056,15 +2676,15 @@ var RS = RS || {};
                     }));
                 }
             });
-    
+
             // It sorts objects by party number.
             this.sort();
-    
+
             this.show = $gameSystem._rs_hud.show;
             this.opacity = $gameSystem._rs_hud.opacity;
-    
+
         }
-    
+
         update() {
             const members = $gameParty.members();
             this.children.forEach((child, idx) => {
@@ -2073,7 +2693,7 @@ var RS = RS || {};
                 }
             });
         }
-    
+
         sort() {
             const allHud = this._items;
             const array = allHud.children;
@@ -2082,24 +2702,24 @@ var RS = RS || {};
                 return a._memberIndex - b._memberIndex;
             });
         }
-    
+
         refresh() {
             const allHud = this._items;
             allHud.children.forEach(i => allHud.removeChild(i));
             this.drawAllHud();
             this.show = $gameSystem._rs_hud.show;
         }
-    
+
         updateText() {
             const allHud = this._items;
             allHud.children.forEach(i => i.updateText());
         }
-    
+
         updateFrame() {
             var allHud = this._items;
             allHud.children.forEach(i => i.paramUpdate());
         }
-    
+
         remove(index) {
             setTimeout(() => {
                 while ($gameParty.size() !== this._items.children.length) {
@@ -2131,8 +2751,8 @@ var RS = RS || {};
     //=================================================
     // RS.HUD.EmptyLayer
     //=================================================
-    
-    RS.HUD.EmptyLayer = class extends Sprite {
+
+    RS.HUD.EmptyLayer = class extends SpriteInterface {
 
         constructor(bitmap) {
             super(bitmap);
@@ -2150,11 +2770,11 @@ var RS = RS || {};
         get opacity() {
             return $gameSystem._rs_hud.opacity;
         }
-    
+
         set opacity(value) {
             $gameSystem._rs_hud.opacity = value.clamp(0, 255);
         }
-    
+
     };
 
     //=================================================
@@ -2166,8 +2786,8 @@ var RS = RS || {};
             super();
 
             this.createHud();
-            this.setAnchor( config.szAnchor || "LeftBottom" );
-            this.setMemberIndex( parseInt(config.nIndex) || 0 );
+            this.setAnchor(config.szAnchor || "LeftBottom");
+            this.setMemberIndex(parseInt(config.nIndex) || 0);
             this.createFace();
             this.createHp();
             this.createMp();
@@ -2181,70 +2801,70 @@ var RS = RS || {};
 
         getAnchor(magnet) {
             const anchor = RS.HUD.getDefaultHUDAnchor();
-    
+
             // Add Custom Anchor
             for (let i = 0; i < RS.HUD.param.nMaxMembers; i++) {
                 const idx = parseInt(i + 1);
                 anchor['Custom Pos ' + idx] = RS.HUD.param.ptCustormAnchor[i];
             }
-    
+
             return anchor[magnet];
         };
-    
+
         setAnchor(anchor) {
-            const pos = this.getAnchor( anchor );
+            const pos = this.getAnchor(anchor);
 
             if (typeof (pos) === 'object') {
                 this._hud.x = pos.x;
                 this._hud.y = pos.y;
             } else {
-                this.setAnchor( RS.HUD.param.szAnchor );
+                this.setAnchor(RS.HUD.param.szAnchor);
             }
         }
-    
+
         setMemberIndex(index) {
             this._memberIndex = index;
         }
-    
+
         createHud() {
-            this._hud = new Sprite( RS.HUD.loadPicture(RS.HUD.param.imgEmptyHUD) );
+            this._hud = new Sprite(RS.HUD.loadPicture(RS.HUD.param.imgEmptyHUD));
             this._hud.z = 0;
             this.addChild(this._hud);
         }
-    
+
         createFace() {
             const player = this.getPlayer();
             this._faceBitmap = RS.HUD.loadFace(player.faceName());
             this._maskBitmap = RS.HUD.loadPicture(RS.HUD.param.imgMasking);
             this._maskBitmap.addLoadListener(() => {
                 this._faceBitmap.addLoadListener(
-                    this.circleClippingMask.bind( this, player.faceIndex() )
+                    this.circleClippingMask.bind(this, player.faceIndex())
                 );
             });
         }
-    
+
         circleClippingMask(faceIndex) {
-    
+
             this._face = new Sprite();
-    
+
             const fw = ImageManager.faceWidth;
             const fh = ImageManager.faceHeight;
             const sx = (faceIndex % 4) * fw;
             const sy = Math.floor(faceIndex / 4) * fh;
-    
+
             this._face.bitmap = new Bitmap(nFaceDiameter, nFaceDiameter);
-    
+
             if (RS.HUD.param.blurProcessing) {
                 this._face.bitmap.drawClippingImage(this._faceBitmap, this._maskBitmap, 0, 0, sx, sy);
             } else {
                 this._face.bitmap.drawClippingImageNonBlur(this._faceBitmap, 0, 0, sx, sy);
             }
-    
+
             this.addChild(this._face);
             this.setCoord(this._face, RS.HUD.param.ptFace);
-    
+
         }
-    
+
         addImage(sprite, cb, dirty) {
             if (sprite.bitmap.width <= 0) {
                 return setTimeout(() => {
@@ -2254,22 +2874,22 @@ var RS = RS || {};
             this.addChild(sprite);
             if (dirty) this.setPosition();
         }
-    
+
         createHp(dirty) {
             this._hp = new Sprite(RS.HUD.loadPicture(RS.HUD.param.imgHP));
             this.addImage(this._hp, this.createHp.bind(this), dirty);
         }
-    
+
         createMp(dirty) {
             this._mp = new Sprite(RS.HUD.loadPicture(RS.HUD.param.imgMP));
             this.addImage(this._mp, this.createMp.bind(this), dirty);
         }
-    
+
         createExp(dirty) {
             this._exp = new Sprite(RS.HUD.loadPicture(RS.HUD.param.imgEXP));
             this.addImage(this._exp, this.createExp.bind(this), dirty);
         }
-    
+
         getTextParams(src) {
             const param = RS.HUD.param;
             const textProperties = {
@@ -2281,20 +2901,20 @@ var RS = RS || {};
             };
             return textProperties[src];
         }
-    
+
         createText() {
-            this._hpText = this.addText( this.getHp.bind(this), this.getTextParams('HP') );
-            this._mpText = this.addText( this.getMp.bind(this), this.getTextParams('MP') );
-            this._expText = this.addText( this.getExp.bind(this), this.getTextParams('EXP') );
-            this._levelText = this.addText( this.getLevel.bind(this), this.getTextParams('LEVEL') );
-            this._nameText = this.addText( this.getName.bind(this), this.getTextParams('NAME') );
+            this._hpText = this.addText(this.getHp.bind(this), this.getTextParams('HP'));
+            this._mpText = this.addText(this.getMp.bind(this), this.getTextParams('MP'));
+            this._expText = this.addText(this.getExp.bind(this), this.getTextParams('EXP'));
+            this._levelText = this.addText(this.getLevel.bind(this), this.getTextParams('LEVEL'));
+            this._nameText = this.addText(this.getName.bind(this), this.getTextParams('NAME'));
         };
-    
+
         createVector() {
             this._vtA = Vector2.empty();
             this._vtB = new Vector2(nFaceDiameter, nFaceDiameter);
         };
-    
+
         setPosition() {
             const param = RS.HUD.param;
 
@@ -2309,7 +2929,7 @@ var RS = RS || {};
             this.setCoord(this._nameText, param.ptNameText, 9);
             this.children.sort(Tilemap.prototype._compareChildOrder.bind(this));
         }
-    
+
         addText(strFunc, params) {
             const bitmap = new Bitmap(120, params[0] + 8);
             const text = new TextData(bitmap, strFunc, params);
@@ -2317,11 +2937,11 @@ var RS = RS || {};
             text.drawDisplayText();
             return text;
         }
-    
+
         getPlayer() {
             return $gameParty.members()[this._memberIndex];
         }
-    
+
         getHp() {
             const player = this.getPlayer();
             if (!player) return HUD.GAUGE_EMPTY_TEXT;
@@ -2331,7 +2951,7 @@ var RS = RS || {};
                 return HUD.GAUGE_TEMPLATE_TEXT.format(player.hp, player.mhp);
             }
         }
-    
+
         getMp() {
             const player = this.getPlayer();
             if (!player) return HUD.GAUGE_EMPTY_TEXT;
@@ -2341,7 +2961,7 @@ var RS = RS || {};
                 return HUD.GAUGE_TEMPLATE_TEXT.format(player.mp, player.mmp);
             }
         }
-    
+
         getExp() {
             const player = this.getPlayer();
             if (!player) return HUD.GAUGE_EMPTY_TEXT;
@@ -2352,7 +2972,7 @@ var RS = RS || {};
                 return HUD.GAUGE_TEMPLATE_TEXT.format(player.relativeExp(), player.relativeMaxExp());
             }
         }
-    
+
         getLevel() {
             const player = this.getPlayer();
             if (!player) return HUD.LEVEL_EMPTY_TEXT;
@@ -2362,7 +2982,7 @@ var RS = RS || {};
                 return HUD.LEVEL_TEMPLATE_TEXT.format(player.level);
             }
         }
-    
+
         getName() {
             const player = this.getPlayer();
             if (!player) return "";
@@ -2373,25 +2993,25 @@ var RS = RS || {};
                 return ' ';
             }
         }
-    
+
         getHpRate() {
             const player = this.getPlayer();
             if (!player) return 0;
             return this._hp.bitmap.width * (player.hp / player.mhp);
         }
-    
+
         getMpRate() {
             const player = this.getPlayer();
             if (!player) return 0;
             return this._mp.bitmap.width * (player.mp / player.mmp);
         }
-    
+
         getExpRate() {
             const player = this.getPlayer();
             if (!player) return 0;
             return this._exp.bitmap.width * (player.relativeExp() / player.relativeMaxExp());
         }
-    
+
         getRealExpRate() {
             const player = this.getPlayer();
             if (!player) return 0;
@@ -2401,13 +3021,13 @@ var RS = RS || {};
                 return (player.relativeExp() / player.relativeMaxExp());
             }
         }
-    
+
         setOpacityisNotGlobal(value) {
             this.children.forEach(i => {
                 i.opacity = value.clamp(0, 255);
             });
         }
-    
+
         getOpacityValue(dir) {
             let value = this._hud.opacity;
             const maxOpaicty = $gameSystem._rs_hud.opacity;
@@ -2421,7 +3041,7 @@ var RS = RS || {};
             }
             return value;
         }
-    
+
         setCoord(s, obj, z) {
             const oy = (s._callbackFunction instanceof Function) ? (s.bitmap.height / 2) : 0;
             s.x = this._hud.x + obj.x;
@@ -2429,26 +3049,26 @@ var RS = RS || {};
             s.z = z;
             s.visible = obj.visible;
         }
-    
+
         update() {
             this.paramUpdate();
             this.updateOpacity();
-            this.updateToneForAll(); 
+            this.updateToneForAll();
         }
-    
+
         updateOpacity() {
             const player = this.getPlayer();
             if (
-                !this.checkHitToMouse(this._hud, nFaceDiameter) && 
-                this.checkHit() || 
+                !this.checkHitToMouse(this._hud, nFaceDiameter) &&
+                this.checkHit() ||
                 player && player.isDead()
             ) {
-                this.setOpacityisNotGlobal( this.getOpacityValue(true) );
+                this.setOpacityisNotGlobal(this.getOpacityValue(true));
             } else {
-                this.setOpacityisNotGlobal( this.getOpacityValue(false) );
+                this.setOpacityisNotGlobal(this.getOpacityValue(false));
             }
         };
-    
+
         checkHit() {
             const x = $gamePlayer.screenX();
             const y = $gamePlayer.screenY();
@@ -2457,56 +3077,56 @@ var RS = RS || {};
                 (x < this._hud.x + this._hud.width) &&
                 y < this._hud.y + this._hud.height;
         }
-    
+
         checkHitToMouse(object, n) {
             const middle = Vector2.empty();
             middle.x = object.width / 2 + object.x;
             middle.y = object.height / 2 + object.y;
             return Vector2.distance(middle, HUD.MOUSE_EVENT) < n;
         }
-    
+
         checkForToneUpdate(obj, cond) {
             if (obj instanceof Sprite && cond) {
                 const t = Date.now() % 1000 / 1000;
-                const vt = Vector2.quadraticBezier( this._vtA, this._vtB, this._vtA, t );
+                const vt = Vector2.quadraticBezier(this._vtA, this._vtB, this._vtA, t);
                 obj.setColorTone([vt.x, vt.x, vt.x, 0]);
             } else {
-                if (obj) obj.setColorTone( [ this._vtA.x, this._vtA.x, this._vtA.x, 0 ] );
+                if (obj) obj.setColorTone([this._vtA.x, this._vtA.x, this._vtA.x, 0]);
             }
         }
-    
+
         updateToneForAll() {
             if (!this.getPlayer()) return false;
             this.checkForToneUpdate(this._hp, this.getPlayer().hpRate() <= nHPGlitter);
             this.checkForToneUpdate(this._mp, this.getPlayer().mpRate() <= nMPGlitter);
             this.checkForToneUpdate(this._exp, this.getRealExpRate() >= nEXPGlitter);
         }
-    
+
         updateText() {
             [this._hpText, this._mpText, this._expText, this._levelText, this._nameText].forEach(e => {
                 e.requestUpdate();
             }, this);
         }
-    
+
         paramUpdate() {
             this._hp.setFrame(0, 0, this.getHpRate(), this._hp.height);
             this._mp.setFrame(0, 0, this.getMpRate(), this._mp.height);
             this._exp.setFrame(0, 0, this.getExpRate(), this._exp.height);
         }
-    
+
         inBattle() {
             return (SceneManager._scene instanceof Scene_Battle ||
                 $gameParty.inBattle() ||
                 DataManager.isBattleTest());
-        }     
-        
+        }
+
         get show() {
             return $gameSystem._rs_hud.show;
         }
 
         set show(value) {
             this.children.forEach(i => i.visible = value);
-            
+
             $gameSystem._rs_hud.show = value;
 
             if (value) {
@@ -2522,14 +3142,14 @@ var RS = RS || {};
             this.children.forEach(i => i.opacity = value.clamp(0, 255));
             $gameSystem._rs_hud.opacity = value.clamp(0, 255);
         }
-       
+
     }
 
     HUD.GAUGE_EMPTY_TEXT = "0 / 0";
     HUD.LEVEL_EMPTY_TEXT = "0";
     HUD.GAUGE_TEMPLATE_TEXT = "%1 / %2";
     HUD.LEVEL_TEMPLATE_TEXT = "%1";
-    HUD.MOUSE_EVENT = new Vector2( Graphics.width / 2, Graphics.height / 2 );
+    HUD.MOUSE_EVENT = new Vector2(Graphics.width / 2, Graphics.height / 2);
 
     //=================================================
     // TouchInput
@@ -2543,7 +3163,7 @@ var RS = RS || {};
         if (HUD.MOUSE_EVENT instanceof Vector2) {
             HUD.MOUSE_EVENT.set(x, y);
         }
-    };    
+    };
 
     //=================================================
     // Scene_Map
@@ -2553,35 +3173,35 @@ var RS = RS || {};
     const alias_Scene_Map_start = Scene_Map.prototype.start;
     const alias_Scene_Map_terminate = Scene_Map.prototype.terminate;
     const alias_Scene_Map_snapForBattleBackground = Scene_Map.prototype.snapForBattleBackground;
-    const alias_Scene_Map_updateFade = Scene_Map.prototype.updateFade;    
+    const alias_Scene_Map_updateFade = Scene_Map.prototype.updateFade;
 
     Object.assign(Scene_Map.prototype, {
         createDisplayObjects() {
             alias_Scene_Map_createDisplayObjects.call(this);
 
-            if ( RS.HUD.param.battleOnly || 
-                 ($dataMap.meta && $dataMap.meta.DISABLE_HUD)
-                ) {
+            if (RS.HUD.param.battleOnly ||
+                ($dataMap.meta && $dataMap.meta.DISABLE_HUD)
+            ) {
                 $gameHud = new RS.HUD.EmptyLayer();
 
             } else {
-    
+
                 this._hudLayer = new RS.HUD.Layer();
                 this._hudLayer.setFrame(0, 0, Graphics.width, Graphics.height);
-    
+
                 $gameHud = this._hudLayer;
                 this._hudLayer.drawAllHud();
-    
+
                 this.addChild(this._hudLayer);
                 this.swapChildren(this._windowLayer, this._hudLayer);
             }
         },
-        
+
         start() {
             alias_Scene_Map_start.call(this);
             $gameTemp.notifyHudTextRefresh();
         },
-    
+
         terminate() {
             this.removeChild(this._hudLayer);
             $gameHud = null;
@@ -2596,9 +3216,9 @@ var RS = RS || {};
                 RS.HUD.param.isPreviousShowUp = temp;
                 $gameHud.show = temp;
             }
-    
+
         },
-        
+
         updateFade() {
             alias_Scene_Map_updateFade.call(this);
             if (this._fadeDuration == 0 && RS.HUD.param.isCurrentBattleShowUp) {
@@ -2606,7 +3226,7 @@ var RS = RS || {};
                 RS.HUD.param.isCurrentBattleShowUp = false;
             }
         }
-    
+
     });
 
     //=================================================
@@ -2615,7 +3235,7 @@ var RS = RS || {};
 
     const alias_Game_Party_addActor = Game_Party.prototype.addActor;
     const alias_Game_Party_removeActor = Game_Party.prototype.removeActor;
-    
+
     Object.assign(Game_Party.prototype, {
 
         addActor(actorId) {
@@ -2636,39 +3256,39 @@ var RS = RS || {};
 
     const alias_Scene_Boot_loadSystemWindowImage = Scene_Boot.prototype.loadSystemWindowImage;
     const alias_Scene_Boot_start = Scene_Boot.prototype.start;
-    
+
     Object.assign(Scene_Boot.prototype, {
 
         loadSystemWindowImage() {
             alias_Scene_Boot_loadSystemWindowImage.call(this);
-    
+
             // Load Face
             RS.HUD.param.preloadImportantFaces.forEach(i => RS.HUD.loadFace(i));
-    
-            [   RS.HUD.param.imgHP, 
-                RS.HUD.param.imgMP, 
-                RS.HUD.param.imgEXP 
+
+            [RS.HUD.param.imgHP,
+            RS.HUD.param.imgMP,
+            RS.HUD.param.imgEXP
             ].forEach(i => RS.HUD.loadPicture(i));
-    
+
         },
-    
+
         start() {
             alias_Scene_Boot_start.call(this);
 
             // Load Custom Anchor
             for (let i = 0; i < RS.HUD.param.nMaxMembers; i++) {
                 RS.HUD.param.ptCustormAnchor.push(
-                    RS.HUD.loadCustomPosition( parameters[String('Custom Pos ' + (i + 1))] || '0, 0' )
+                    RS.HUD.loadCustomPosition(parameters[String('Custom Pos ' + (i + 1))] || '0, 0')
                 );
             }
 
             // Load Custom Font
             if (RS.HUD.param.bUseCustomFont) {
                 const fontSrc = RS.HUD.param.szCustomFontSrc.replace("fonts/", "");
-                FontManager.load( RS.HUD.param.szCustomFontName, fontSrc );
+                FontManager.load(RS.HUD.param.szCustomFontName, fontSrc);
             }
         },
-    
+
     });
 
 
@@ -2679,7 +3299,7 @@ var RS = RS || {};
     const alias_Scene_Battle_updateFade = Scene_Battle.prototype.updateFade;
     Scene_Battle.prototype.updateFade = function () {
         alias_Scene_Battle_updateFade.call(this);
-        if (this._fadeDuration == 0 && 
+        if (this._fadeDuration == 0 &&
             !RS.HUD.param.isCurrentBattleShowUp) {
 
             if ($gameHud) $gameHud.show = true;
@@ -2702,13 +3322,13 @@ var RS = RS || {};
 
     PluginManager.registerCommand(pluginName, "import", async args => {
         await RS.HUD.importDataWithAjax2(args.filename + ".json")
-        .then(data => RS.HUD.loadData(data))
-        .catch(err => console.warn(err));
+            .then(data => RS.HUD.loadData(data))
+            .catch(err => console.warn(err));
     });
 
     PluginManager.registerCommand(pluginName, "export", args => {
         RS.HUD.exportData(args.filename + '.json')
-            .then(result => {})
+            .then(result => { })
             .catch(err => console.warn(err));
     });
 
